@@ -1,5 +1,4 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
-import { Link } from 'expo-router';
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
@@ -18,27 +17,26 @@ export default function LoginScreen() {
     let isValid = true;
 
     if (!email) {
-      setEmailError('Email is required');
+      setEmailError('El correo electrónico es requerido');
       isValid = false;
     } else if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email');
+      setEmailError('Por favor ingrese un correo electrónico válido');
       isValid = false;
     } else {
       setEmailError('');
     }
 
     if (!password) {
-      setPasswordError('Password is required');
+      setPasswordError('La contraseña es requerida');
       isValid = false;
     } else if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters');
+      setPasswordError('La contraseña debe tener al menos 6 caracteres');
       isValid = false;
     } else {
       setPasswordError('');
     }
 
     if (isValid) {
-      // Handle login logic here
       console.log('Login attempted with:', { email, password });
     }
   };
@@ -51,21 +49,29 @@ export default function LoginScreen() {
       <StatusBar style="light" />
       <View style={styles.header}>
         <Image 
-          source={{ uri: 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=600&q=80' }}
+          source={{ uri: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&q=80' }}
           style={styles.backgroundImage}
         />
         <View style={styles.overlay} />
       </View>
 
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Welcome Back</Text>
-        <Text style={styles.subtitle}>Sign in to continue</Text>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../assets/images/logo_retiro.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+        </View>
+
+        <Text style={styles.title}>Bienvenido</Text>
+        <Text style={styles.subtitle}>Inicia sesión para continuar</Text>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>Correo Electrónico</Text>
           <TextInput
             style={[styles.input, emailError && styles.inputError]}
-            placeholder="Enter your email"
+            placeholder="Ingrese su correo electrónico"
             placeholderTextColor="#666"
             keyboardType="email-address"
             autoCapitalize="none"
@@ -79,10 +85,10 @@ export default function LoginScreen() {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password</Text>
+          <Text style={styles.label}>Contraseña</Text>
           <TextInput
             style={[styles.input, passwordError && styles.inputError]}
-            placeholder="Enter your password"
+            placeholder="Ingrese su contraseña"
             placeholderTextColor="#666"
             secureTextEntry
             value={password}
@@ -94,22 +100,9 @@ export default function LoginScreen() {
           {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
         </View>
 
-        <TouchableOpacity style={styles.forgotPassword}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Sign In</Text>
+          <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
-
-        <View style={styles.signupContainer}>
-          <Text style={styles.signupText}>Don't have an account? </Text>
-          <Link href="/signup" asChild>
-            <TouchableOpacity>
-              <Text style={styles.signupLink}>Sign Up</Text>
-            </TouchableOpacity>
-          </Link>
-        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -121,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    height: 260,
+    height: 200,
     position: 'relative',
   },
   backgroundImage: {
@@ -130,7 +123,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(139, 69, 19, 0.4)',
   },
   formContainer: {
     flex: 1,
@@ -140,34 +133,44 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     padding: 24,
   },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+  },
   title: {
     fontSize: 32,
     fontWeight: '700',
-    color: '#1a1a1a',
+    color: '#000',
     marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: '#000',
     marginBottom: 32,
+    textAlign: 'center',
   },
   inputContainer: {
     marginBottom: 20,
   },
   label: {
     fontSize: 14,
-    color: '#1a1a1a',
+    color: '#000',
     marginBottom: 8,
     fontWeight: '500',
   },
   input: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
-    color: '#1a1a1a',
+    color: '#000',
     borderWidth: 1,
-    borderColor: '#f5f5f5',
+    borderColor: '#8B4513',
   },
   inputError: {
     borderColor: '#ff4444',
@@ -177,38 +180,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 4,
   },
-  forgotPassword: {
-    alignSelf: 'flex-end',
-    marginBottom: 24,
-  },
-  forgotPasswordText: {
-    color: '#666',
-    fontSize: 14,
-  },
   loginButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#8B4513',
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
-    marginBottom: 24,
+    marginTop: 24,
   },
   loginButtonText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: '600',
-  },
-  signupContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  signupText: {
-    color: '#666',
-    fontSize: 14,
-  },
-  signupLink: {
-    color: '#007AFF',
-    fontSize: 14,
     fontWeight: '600',
   },
 });
